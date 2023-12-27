@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Data</title>
+</head>
+
+<body>
+
+    <div id="data-container"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchData();
+        });
+
+        function fetchData() {
+            fetch('php/data.txt')
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Raw data:', data);
+                    return JSON.parse(data); // Parse the JSON data
+                })
+                .then(parsedData => displayData(parsedData))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayData(data) {
+            const dataContainer = document.getElementById('data-container');
+
+            if (data.length === 0) {
+                dataContainer.innerHTML = '<p>No data available.</p>';
+                return;
+            }
+
+            const listItems = data.map(entry => `<li>${JSON.stringify(entry)}</li>`).join('');
+            dataContainer.innerHTML = `<ul>${listItems}</ul>`;
+        }
+    </script>
+
+</body>
+
+</html>
