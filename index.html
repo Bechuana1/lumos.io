@@ -7,6 +7,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>x`
     <title>lumos.io</title>
 
+    
+
 </head>
 <body>
 
@@ -39,7 +41,13 @@
             </form>
         </div>
     </div>
-    <div id="data-container"></div>
+
+    <div class="container">
+    <div class="row">
+        <div id="data-container"></div>
+    </div>
+</div>
+    
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -61,21 +69,33 @@
                 dataContainer.innerHTML = '<p>No data available.</p>';
                 return;
             }
+            const cardsHTML = data.map(entry => `
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <blockquote class="blockquote blockquote-custom bg-white px-3 pt-4">
+                            <div class="shadow-1-strong">
+                                ${entry.time}
+                                <i class="fa fa-quote-left text-white"></i>
+                            </div>
+                            <p class="mb-0 mt-2 font-italic">
+                                "${entry.comments}"
 
-            const cardsHTML = data.map(entry => {
-                const formattedDate = new Date(entry.date).toLocaleDateString();
-                return `
-                    <div class="card mt-3">
-                        <div class="card-header">${entry.title}</div>
-                        <div class="card-body">
-                            <p class="card-text">${entry.comments}</p>
-                        </div>
-                        <div class="card-footer text-muted">${formattedDate}</div>
+                            </p>
+                            <footer class="blockquote-footer pt-4 mt-4 border-top">
+                                @Bechuana1
+                            </footer>
+                        </blockquote>
                     </div>
-                `;
-            }).join('');
+                </div>
+            </div>
+        `).join('');
+        dataContainer.innerHTML = `
+            <div class="row">${cardsHTML}</div>
+        `;
 
-            dataContainer.innerHTML = cardsHTML;
+
+           
 
             document.addEventListener('DOMContentLoaded', function () {
             fetchData();
